@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo da Velha</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main>
+
+    <!-- Início -->
+    <section id="telaInicial" class="tela-inicial" aria-labelledby="tituloInicial">
+      <h1 id="tituloInicial">Jogo da Velha</h1>
+
+      <form id="formJogadores" name="formJogadores" class="cartao" novalidate>
+        <div class="campos">
+          <div class="campo">
+            <label for="jogador1">Jogador 1</label>
+            <input type="text" id="jogador1" name="jogador1"
+                   placeholder="Digite o nome do jogador 1"
+                   maxlength="20" autocomplete="off">
+          </div>
+
+          <div class="campo">
+            <label for="jogador2">Jogador 2</label>
+            <input type="text" id="jogador2" name="jogador2"
+                   placeholder="Digite o nome do jogador 2"
+                   maxlength="20" autocomplete="off">
+          </div>
+        </div>
+
+        <button type="submit" class="botao-jogar">Jogar</button>
+      </form>
+    </section>
+
+    <!-- Jogo -->
+    <section id="telaJogo" class="tela-jogo oculto" aria-label="Partida">
+      <h1 class="sr-only">Jogo da Velha</h1>
+
+      <header class="cabecalho">
+        <div class="barra">
+          <button type="button" id="btnVoltar" class="icone-botao" aria-label="Voltar para a tela inicial">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16.5 10H3.5M8.5 5l-5 5 5 5"/>
+            </svg>
+          </button>
+
+          <button type="button" id="btnReiniciar" class="icone-botao" aria-label="Reiniciar a partida">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <g transform="translate(0 24) scale(1 -1)">
+                <path d="M19.95 11a8 8 0 1 0-.5 4m.5 5v-5h-5"/>
+              </g>
+            </svg>
+          </button>
+        </div>
+
+        <div class="painel">
+          <div id="jogador1Info" class="jogador ativo">
+            <svg class="jogador-icone" viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+              <circle cx="36" cy="21" r="15" fill="currentColor"/>
+              <path class="corte" d="M28.5 13.5L43.5 28.5M43.5 13.5L28.5 28.5" fill="none"
+                    stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M18 66a3 3 0 0 1-3-3V56a14 14 0 0 1 14-14H43a14 14 0 0 1 14 14V63a3 3 0 0 1-3 3Z"
+                    fill="currentColor"/>
+            </svg>
+            <div class="jogador-texto">
+              <p id="nomeJogador1" class="jogador-nome"></p>
+              <p id="suaVez1" class="sua-vez">Sua vez!</p>
+            </div>
+          </div>
+
+          <div class="placar">
+            <h2>PLACAR</h2>
+            <p class="placar-numeros">
+              <span id="placar1">0</span>
+              <span class="vs">vs</span>
+              <span id="placar2">0</span>
+            </p>
+          </div>
+
+          <div id="jogador2Info" class="jogador jogador-direita">
+            <svg class="jogador-icone" viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+              <circle cx="36" cy="21" r="15" fill="currentColor"/>
+              <circle class="corte" cx="36" cy="21" r="8.5" fill="none" stroke-width="2"/>
+              <path d="M18 66a3 3 0 0 1-3-3V56a14 14 0 0 1 14-14H43a14 14 0 0 1 14 14V63a3 3 0 0 1-3 3Z"
+                    fill="currentColor"/>
+            </svg>
+            <div class="jogador-texto">
+              <p id="nomeJogador2" class="jogador-nome"></p>
+              <p id="suaVez2" class="sua-vez">Sua vez!</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="tabuleiro-area">
+        <div id="tabuleiro" class="tabuleiro">
+          <button type="button" id="q0" class="quadrado" aria-label="Linha 1, coluna 1"></button>
+          <button type="button" id="q1" class="quadrado" aria-label="Linha 1, coluna 2"></button>
+          <button type="button" id="q2" class="quadrado" aria-label="Linha 1, coluna 3"></button>
+          <button type="button" id="q3" class="quadrado" aria-label="Linha 2, coluna 1"></button>
+          <button type="button" id="q4" class="quadrado" aria-label="Linha 2, coluna 2"></button>
+          <button type="button" id="q5" class="quadrado" aria-label="Linha 2, coluna 3"></button>
+          <button type="button" id="q6" class="quadrado" aria-label="Linha 3, coluna 1"></button>
+          <button type="button" id="q7" class="quadrado" aria-label="Linha 3, coluna 2"></button>
+          <button type="button" id="q8" class="quadrado" aria-label="Linha 3, coluna 3"></button>
+        </div>
+
+        <!-- Linha que risca quando o jogador vence-->
+        <svg id="linhaVencedora" class="linha-vencedora oculto" viewBox="0 0 300 300" aria-hidden="true">
+          <line id="linhaRisco" x1="0" y1="0" x2="0" y2="0" pathLength="1"/>
+        </svg>
+      </div>
+
+      <!-- Anúncio da vez para leitores de tela -->
+      <p id="status" class="sr-only" aria-live="polite"></p>
+    </section>
+
+  </main>
+
+  <!-- Aba de vitória ou empate -->
+  <div id="modal" class="modal-fundo oculto" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+    <div class="modal">
+      <button type="button" id="btnFecharModal" class="fechar" aria-label="Fechar">X</button>
+
+      <div id="modalSimbolos" class="modal-simbolos"></div>
+
+      <div class="modal-textos">
+        <div class="modal-titulos">
+          <h2 id="modalTitulo"></h2>
+          <p id="modalNome" class="modal-nome"></p>
+        </div>
+        <p id="modalMensagem" class="modal-mensagem"></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
